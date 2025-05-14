@@ -1,0 +1,69 @@
+import {Link, useNavigate} from "react-router-dom";
+import logo from "../assets/easy-pos-logo.svg";
+
+const Navbar = () => {
+    const navigate = useNavigate();
+
+    const onLoginPressed = () => {
+        navigate('/login')
+    }
+
+    const onDashboardPressed = () => {
+        navigate('/dashboard')
+    }
+
+    return (
+        <nav className="relative bg-white shadow-md px-6 py-3 flex items-center">
+            {/* Logo on the left */}
+            <div className="flex-shrink-0">
+                <img
+                    src={logo}
+                    height={150}
+                    width={150}
+                    alt="easy pos logo"
+                    className="object-contain"
+                />
+            </div>
+
+            {/* Centered navigation links */}
+            <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="flex space-x-8 text-gray-700 font-medium">
+                    <Link
+                        to="/"
+                        className="hover:text-blue-600 transition-colors duration-300"
+                    >
+                        Home
+                    </Link>
+                    <Link
+                        to="/about"
+                        className="hover:text-blue-600 transition-colors duration-300"
+                    >
+                        About
+                    </Link>
+                    <Link
+                        to="/contact"
+                        className="hover:text-blue-600 transition-colors duration-300"
+                    >
+                        Contact
+                    </Link>
+                </div>
+            </div>
+
+            {/* Login button on the right */}
+            <div className="ml-auto space-x-1">
+                <button
+                    onClick={onDashboardPressed}
+                    className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors duration-300">
+                    Dashboard
+                </button>
+                <button
+                    onClick={onLoginPressed}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300">
+                    Login
+                </button>
+            </div>
+        </nav>
+    );
+};
+
+export default Navbar;
