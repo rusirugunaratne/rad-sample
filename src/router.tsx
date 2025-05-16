@@ -6,11 +6,13 @@ import ContactPage from "./pages/ContactPage";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import CustomerPage from "./pages/CustomerPage";
+import ErrorPage from "./pages/ErrorPage";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Layout/>,
+        errorElement: <ErrorPage/>,
         children: [
             {path: '/', element: <HomePage/>},
             {path: '/about', element: <AboutPage/>},

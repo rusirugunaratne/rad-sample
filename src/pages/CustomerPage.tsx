@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, {useReducer, useState} from "react";
 import { FaPlus } from "react-icons/fa";
 import CustomerForm, {type CustomerFormData} from "../components/forms/CustomerForm";
 import CustomerTable from "../components/tables/CustomerTable";
 import Dialog from "../components/Dialog";
+import customerReducer from "../reducers/customer-reducer";
 
 // Customer type
 export type Customer = {
@@ -28,7 +29,9 @@ const initialCustomers: Customer[] = [
 ];
 
 const CustomerPage: React.FC = () => {
-    const [customers, setCustomers] = useState<Customer[]>(initialCustomers);
+    const [customers, dispatch] = useReducer(customerReducer, initialCustomers);
+
+    // UI state
     const [dialogOpen, setDialogOpen] = useState(false);
     const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
 
@@ -44,22 +47,21 @@ const CustomerPage: React.FC = () => {
 
     const handleDelete = (customer: Customer) => {
         if (window.confirm("Are you sure you want to delete this customer?")) {
-            setCustomers((prev) => prev.filter((c) => c.id !== customer.id));
+            dispatch({ type: "DELETE", payload: customer.id });
         }
     };
 
     const handleSave = (data: CustomerFormData) => {
         if (editingCustomer) {
-            setCustomers((prev) =>
-                prev.map((c) =>
-                    c.id === editingCustomer.id ? { ...c, ...data } : c
-                )
-            );
+            dispatch({
+                type: "UPDATE",
+                payload: { ...editingCustomer, ...data },
+            });
         } else {
-            setCustomers((prev) => [
-                ...prev,
-                { ...data, id: Date.now() },
-            ]);
+            dispatch({
+                type: "ADD",
+                payload: data,
+            });
         }
         setDialogOpen(false);
     };
